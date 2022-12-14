@@ -15,7 +15,10 @@
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
     "@openzeppelin/contracts": "^4.7.3",
     "@types/node": "^16.11.59",
+    "@types/uglify-js": "^3.17.1",
     "dotenv": "^16.0.2",
-    "hardhat": "^2.11.2"
+    "fflate": "^0.7.4",
+    "hardhat": "^2.11.2",
+    "uglify-js": "^3.17.4"
   }
 }
