@@ -1,0 +1,43 @@
+<script>
+  var tokenId = 1;
+</script>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  canvas {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+<script>
+  var script = document.createElement('script');
+  script.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js');
+  document.head.appendChild(script);
+</script>
+<script>
+  // --- start ---
+  window.onload = () => {
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xffffff);
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+    const light = new THREE.HemisphereLight(0xffffff, 0x202020, 1);
+    const geometry = new THREE.TorusKnotGeometry(1, 0.3, 100, 16, 2, 3);
+    const material = new THREE.MeshPhongMaterial({ color: 0x00ffff });
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(light, mesh);
+    camera.position.z = 4;
+    const animate = function () {
+      requestAnimationFrame(animate);
+      mesh.rotation.x += 0.01;
+      mesh.rotation.y += 0.01;
+      renderer.render(scene, camera);
+    };
+    animate();
+  };
+  // --- end ---
+</script>

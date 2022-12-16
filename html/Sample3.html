@@ -1,0 +1,64 @@
+<script>
+  var tokenId = 1;
+</script>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  canvas {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+<script>
+  var script = document.createElement('script');
+  script.setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js');
+  document.head.appendChild(script);
+</script>
+<script>
+  // --- start ---
+  const sidePath =
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAi9JREFUOI1tk89rE0EUxz/Zkmo3QlJoLkLSlBrSNJZAQmvDSk8eerEUoWmh13rw0n/AIqV4F8RDRPEmFHsQ9C4YXFaQLQRp16BgslMQsTath42WYjzEeW3Quczw5vve98fshq48WO0Ux6sA5DMpavUGza0Owwshmlsd5tZGqNUbnF1v7wwwvdGmudXBKI5XcXdnAHi4+BWA4YWQ7HqgXu7ujDQPL4Qwzk6e3mjLOZ9J4e7OkM+kZGA+k0Kr1TUDYKnqigrN9uLuZ4rj1R75T54nAUhXIoIXBUM7r4UtXYkwtzYioHQlAiDs+pyuRDAWN6cAuPb9ArV6Q8C1eoOlqsvJ7RCeCqSudwBPBRiPPr0BoBDL9SS9uDmFpwKyCZNswpTmQiwnA1fKY10LhViOp+/fka5EsEpdn9uHO2QTJp4KcPdb3RfYb7F9uMNKeQwA2/ExikODAgZ4/OxDj8RswqQ4NIhVSmK2z/2DMQBh1Q2acXliUoC244uilfIYngq6GRRiOWzHxyolRcXq9TyeCtD5eCqQQcsTk9iOTzDwi2zCpK+///d6PBpG7R2Jz5ODY+ZnRzk5OAYgHg1jlZKovSNefWwSj4a5aA5glZIYyxOTwuCpgJuXropPTwViz3Z8gB6LtuPTlx89vz4/O4raOyIeDfPl5zfc/Ra3blym/SMQZZ4KRIlWVojlCN0rW6d/yt9ANdv/6jpoeYWzAXkqwHZ8+aj0nVVKcv9lradZY/4AGkoIRULmBlkAAAAASUVORK5CYII=';
+  const topPath =
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAYZJREFUOI1tk79Kw1AUh78b69BRaAcrNNkCrRIhiE7pK+gQcO7o4CMUKT6Ci0tnIUPBBxCaqSgZOhhwEI2gIFRw0sEhDuHc3qQ5y/2T38m53++eq87u9nOMSNKAv5sHtvd+sENFFuXYocJzHW4vX7BDRZIG+L2YLMppVJP9XgxjAAWAHRbjZNrFD19NOXaosLKoOMB81KT1OAPAcx1kP0kDquH3Yq1RguC5DouncgU5kYyi8VxHa9Th1Xnu9+LaRHMuXlTDMpOTNCBJA41iVl72B1pn4qnr9+N8Mu0yPHkrIQi7FKhDBNj4uN+62NjdwbIWpQ+ddkannen159c3WZTzrAalfeto/KuPbEbdLSz7A6rIDSjucz5qsnl6AEDrcbZmmGmsICUpWHIlR+NfzSydJ2vPdUrGZlGu/WjIpEhYVVg8vZKkwZq5ZrNBjCWMIjKZhydvTKZdBNPsBdFbVS6zgczKnuvoh7TsD5iPmgCrVpYQ9+u6rs5MjSCjHapSsuzLjyVZ1v+SNdQ60Dwq2AAAAABJRU5ErkJggg==';
+  const bottomPath =
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAflJREFUOI1tk79L42AYxz+Np16ztIW6CI1DOyT0pF6LQ0l3XQS5IYtrKtzi3+B/cHCrri6ut90gHFgClhSklAhmMSncEi6pPVI8j+sN5X2J1XcJed/v+/3xPM+bO25/nAMYFRWx3CimVS7hRjHdWodBMiK7zLZGzwlwoxjFqKik+Sd54IUprXIJgJODBoNkhNnW5GUvTDm/vMNsa7TKJXJfLHPuhekLBwDNYp2LYZ+j7V0GyYi3MACKsO+FqVQAOPOvMSoqF8M+y5gsThE/tqXTLNYlsFvrSNVsBBFVuMn9OD6eZ4u0bFUovWXfC1OUM/9aZs4qNYt1SbZMKEhtS19EEAXrOQG2pQMwSEYyjhvFwKK9RkWVmJ4ToLTKJQkGOL+8exWnVS5htjXU2forjOKFqey/uCAUs3F6TiAd2ZYu8crR9q60LlycHDTwwlQOWN6YyuoLfJp/wrZ0VtbW/p1uFFb57vwkenwmeP7N319/ONyvMrxN2Nva4cb3AQjHE67uH9jb2iGnTNEqhYWDbLW7tc6LnHljihvFNIt12U7RuZ4TsNKovj893K8SjieYbY0b38eNYj5/+sDsMSUcT9hU81zdP7BRWAVgU83L2iiCSXzFIxF7Qlm0LjvOg2TEu+zkLQ4DmsW6fEBe2Me2dL5+u0WdrUusIP4PMoAQ8lL2wooAAAAASUVORK5CYII=';
+  window.onload = () => {
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x405090);
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+    const geometry = new THREE.BoxGeometry();
+    const loader = new THREE.TextureLoader();
+    const sideTexture = loader.load(sidePath);
+    sideTexture.magFilter = THREE.NearestFilter;
+    const topTexture = loader.load(topPath);
+    topTexture.magFilter = THREE.NearestFilter;
+    const bottomTexture = loader.load(bottomPath);
+    bottomTexture.magFilter = THREE.NearestFilter;
+    const materials = [
+      new THREE.MeshBasicMaterial({ map: sideTexture }),
+      new THREE.MeshBasicMaterial({ map: sideTexture }),
+      new THREE.MeshBasicMaterial({ map: topTexture }),
+      new THREE.MeshBasicMaterial({ map: bottomTexture }),
+      new THREE.MeshBasicMaterial({ map: sideTexture }),
+      new THREE.MeshBasicMaterial({ map: sideTexture }),
+    ];
+    const cube = new THREE.Mesh(geometry, materials);
+    scene.add(cube);
+    camera.position.z = 2;
+    camera.lookAt(0, 0, 0);
+    const clock = new THREE.Clock();
+    const animate = function () {
+      requestAnimationFrame(animate);
+      cube.rotation.y += clock.getDelta() * 0.25;
+      cube.rotation.x = Math.sin(clock.getElapsedTime()) * 0.5;
+      renderer.render(scene, camera);
+    };
+    animate();
+  };
+  // --- end ---
+</script>
