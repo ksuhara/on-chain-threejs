@@ -8,16 +8,16 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "../common/IDataChunkCompilerV2.sol";
 
-contract Sample4 is ERC721("Sample4", "SAMPLE4"), Ownable {
+contract Sample2 is ERC721("Sample2", "SAMPLE2"), Ownable {
     using Strings for uint256;
 
+    uint256 public nextTokenId = 1;
     IDataChunkCompilerV2 private compiler;
-    address[2] private imageAddresses;
     address[9] private threeAddresses;
     string private constant STYLE_CODE =
         "%253Cstyle%253E%252A%257Bmargin%253A0%253Bpadding%253A0%257Dcanvas%257Bwidth%253A100%2525%253Bheight%253A100%2525%257D%253C%252Fstyle%253E";
     string private constant JS_CODE =
-        "window.onload%253D()%253D%253E%257Bconst%2520e%253D%257Bwidth%253Awindow.innerWidth%252Cheight%253Awindow.innerHeight%257D%252Ci%253Dnew%2520THREE.Scene%252Ct%253Dnew%2520THREE.PerspectiveCamera(75%252Ce.width%252Fe.height%252C.1%252C1e3)%252Cn%253D(t.position.z%253D2%252Ct.position.y%253D1%252Ct.lookAt(0%252C0%252C0)%252Cnew%2520THREE.WebGLRenderer)%253Bn.setSize(e.width%252Ce.height)%252Cn.setPixelRatio(window.devicePixelRatio)%252Cdocument.body.appendChild(n.domElement)%253Bvar%2520o%253Dnew%2520THREE.SphereGeometry(1%252C80%252C40)%252Cd%253D(new%2520THREE.TextureLoader).load(imageUrl)%252Cd%253D(d.magFilter%253DTHREE.NearestFilter%252Cnew%2520THREE.MeshStandardMaterial(%257Bmap%253Ad%257D))%253Bd.roughness%253D.4%253Bconst%2520w%253Dnew%2520THREE.Mesh(o%252Cd)%253Bo%253Dnew%2520THREE.AmbientLight(2105376)%252Cd%253Dnew%2520THREE.PointLight%253Bd.position.set(2%252C2%252C2)%252Ci.add(w%252Co%252Cd)%252Cwindow.addEventListener(%2522resize%2522%252C()%253D%253E%257Be.width%253Dwindow.innerWidth%252Ce.height%253Dwindow.innerHeight%252Ct.aspect%253De.width%252Fe.height%252Ct.updateProjectionMatrix()%252Cn.setSize(e.width%252Ce.height)%252Cn.setPixelRatio(window.devicePixelRatio)%257D)%253Bfunction%2520h()%257BrequestAnimationFrame(h)%252Cw.rotation.y%252B%253D.1*r.getDelta()%252Cn.render(i%252Ct)%257Dconst%2520r%253Dnew%2520THREE.Clock%253Bh()%257D%253B";
+        "const%2520MAX_INT32%253D2147483647%253Bclass%2520Random%257Bconstructor(e)%257Be%253C%253D0%2526%2526(e%252B%253DMAX_INT32-1)%252Cthis._value%253De%252Cthis.int()%257Dint()%257Breturn%2520this._value%253D48271*this._value%2525MAX_INT32%252Cthis._value%257Dfloat()%257Breturn(this.int()-1)%252F(MAX_INT32-1)%257DintRange(e%252Ct)%257Breturn%2520Math.floor(this.floatRange(e%252Ct))%257DfloatRange(e%252Ct)%257Breturn%2520e%252B(t-e)*this.float()%257Dboolean()%257Breturn%2520this.int()%25252%253D%253D0%257Dcolor()%257Breturn%2520Math.floor(16777216*this.float())%257D%257Dwindow.onload%253D()%253D%253E%257Bvar%2520e%253Dnew%2520Random(tokenId)%252Ct%253De.color()%252Cn%253De.color()%252Co%253De.intRange(1%252C9)%252Ce%253De.intRange(1%252C9)%253Bconsole.log(%257BtokenId%253AtokenId%252CbgColor%253At%252CgeomColor%253An%252Cp%253Ao%252Cq%253Ae%257D)%253Bconst%2520i%253D%257Bwidth%253Awindow.innerWidth%252Cheight%253Awindow.innerHeight%257D%252Cr%253Dnew%2520THREE.Scene%252Ca%253D(r.background%253Dnew%2520THREE.Color(t)%252Cnew%2520THREE.PerspectiveCamera(75%252Ci.width%252Fi.height%252C.1%252C1e3))%252Ch%253D(a.position.z%253D4%252Ca.lookAt(0%252C0%252C0)%252Cnew%2520THREE.WebGLRenderer)%253Bh.setSize(i.width%252Ci.height)%252Ch.setPixelRatio(window.devicePixelRatio)%252Cdocument.body.appendChild(h.domElement)%253Bt%253Dnew%2520THREE.HemisphereLight(16777215%252C2105376%252C1)%252Co%253Dnew%2520THREE.TorusKnotGeometry(1%252C.2%252C200%252C32%252Co%252Ce)%252Ce%253Dnew%2520THREE.MeshPhongMaterial(%257Bcolor%253An%257D)%253Bfunction%2520d()%257BrequestAnimationFrame(d)%253Bvar%2520e%253Dw.getDelta()%253Bl.rotation.x%252B%253De%252Cl.rotation.y%252B%253De%252Ch.render(r%252Ca)%257Dconst%2520l%253Dnew%2520THREE.Mesh(o%252Ce)%252Cw%253D(r.add(t%252Cl)%252Cwindow.addEventListener(%2522resize%2522%252C()%253D%253E%257Bi.width%253Dwindow.innerWidth%252Ci.height%253Dwindow.innerHeight%252Ca.aspect%253Di.width%252Fi.height%252Ca.updateProjectionMatrix()%252Ch.setSize(i.width%252Ci.height)%252Ch.setPixelRatio(window.devicePixelRatio)%257D)%252Cnew%2520THREE.Clock)%253Bd()%257D%253B";
 
     function setCompilerAddress(address newAddress) public onlyOwner {
         compiler = IDataChunkCompilerV2(newAddress);
@@ -45,17 +45,10 @@ contract Sample4 is ERC721("Sample4", "SAMPLE4"), Ownable {
         threeAddresses[8] = chunk9;
     }
 
-    function setImageAddress(address chunk1, address chunk2) public onlyOwner {
-        imageAddresses[0] = chunk1;
-        imageAddresses[1] = chunk2;
-    }
-
-    function mint(uint256 tokenId) public onlyOwner {
-        _mint(msg.sender, tokenId);
-    }
-
-    function getImageData() private view returns (string memory) {
-        return compiler.compile2(imageAddresses[0], imageAddresses[1]);
+    function mint() public {
+        uint256 _tokenId = nextTokenId;
+        nextTokenId++;
+        _mint(msg.sender, _tokenId);
     }
 
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
@@ -71,7 +64,6 @@ contract Sample4 is ERC721("Sample4", "SAMPLE4"), Ownable {
             threeAddresses[8]
         );
         string memory tokenIdStr = tokenId.toString();
-        string memory image = getImageData();
         return
             string.concat(
                 compiler.BEGIN_JSON(),
@@ -86,10 +78,9 @@ contract Sample4 is ERC721("Sample4", "SAMPLE4"), Ownable {
                         compiler.END_SCRIPT_DATA_COMPRESSED()
                     ),
                     string.concat(
-                        // variables
+                        // variable
                         compiler.BEGIN_SCRIPT(),
                         compiler.SCRIPT_VAR("tokenId", tokenIdStr, true),
-                        compiler.SCRIPT_VAR("imageUrl", image, false),
                         compiler.END_SCRIPT(),
                         // main script
                         compiler.BEGIN_SCRIPT(),
