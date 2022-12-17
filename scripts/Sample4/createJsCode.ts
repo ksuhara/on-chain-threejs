@@ -1,7 +1,7 @@
 import { createJsCode } from '../lib/createJsCode';
 
 async function main() {
-  createJsCode('./html/Sample1.html', './output');
+  createJsCode('./html/Sample4.html', './output');
 }
 
 main().catch((error) => {
