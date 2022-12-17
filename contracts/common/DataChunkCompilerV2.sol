@@ -1,14 +1,12 @@
 // SPDX-License-Identifier: Unlicense
 // by dom; use however you like
-// modified by nawoo
+// modified by nawoo (@NowAndNawoo)
 
-pragma solidity ^0.8.12;
+pragma solidity ^0.8.1;
 
-interface IDataChunk {
-    function data() external view returns (string memory);
-}
+import "./IDataChunkCompilerV2.sol";
 
-contract DataChunkCompilerV2 {
+contract DataChunkCompilerV2 is IDataChunkCompilerV2 {
     address public immutable owner;
 
     // via https://gist.github.com/enepomnyaschih/72c423f727d395eeaa09697058238727 (MIT License)
@@ -40,26 +38,6 @@ contract DataChunkCompilerV2 {
                     END_SCRIPT_DATA
                 )
             );
-    }
-
-    // <script>...</script>
-    function SCRIPT(string memory script) public pure returns (string memory) {
-        return string.concat(BEGIN_SCRIPT, script, END_SCRIPT);
-    }
-
-    // <script src='...'></script>
-    function SCRIPT_DATA(string memory script) public pure returns (string memory) {
-        return string.concat(BEGIN_SCRIPT_DATA, script, END_SCRIPT_DATA);
-    }
-
-    // <script defer src='...'></script>
-    function SCRIPT_DATA_DEFER(string memory script) public pure returns (string memory) {
-        return string.concat(BEGIN_SCRIPT_DATA_DEFER, script, END_SCRIPT_DATA);
-    }
-
-    // <script>var data=base64ToBytes('...'); var ~ </script>
-    function SCRIPT_DATA_COMPRESSED(string memory script) public pure returns (string memory) {
-        return string.concat(BEGIN_SCRIPT_DATA_COMPRESSED, script, END_SCRIPT_DATA_COMPRESSED);
     }
 
     function SCRIPT_VAR(
