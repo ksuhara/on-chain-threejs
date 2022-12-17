@@ -25,12 +25,17 @@
   const bottomPath =
     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAflJREFUOI1tk79L42AYxz+Np16ztIW6CI1DOyT0pF6LQ0l3XQS5IYtrKtzi3+B/cHCrri6ut90gHFgClhSklAhmMSncEi6pPVI8j+sN5X2J1XcJed/v+/3xPM+bO25/nAMYFRWx3CimVS7hRjHdWodBMiK7zLZGzwlwoxjFqKik+Sd54IUprXIJgJODBoNkhNnW5GUvTDm/vMNsa7TKJXJfLHPuhekLBwDNYp2LYZ+j7V0GyYi3MACKsO+FqVQAOPOvMSoqF8M+y5gsThE/tqXTLNYlsFvrSNVsBBFVuMn9OD6eZ4u0bFUovWXfC1OUM/9aZs4qNYt1SbZMKEhtS19EEAXrOQG2pQMwSEYyjhvFwKK9RkWVmJ4ToLTKJQkGOL+8exWnVS5htjXU2forjOKFqey/uCAUs3F6TiAd2ZYu8crR9q60LlycHDTwwlQOWN6YyuoLfJp/wrZ0VtbW/p1uFFb57vwkenwmeP7N319/ONyvMrxN2Nva4cb3AQjHE67uH9jb2iGnTNEqhYWDbLW7tc6LnHljihvFNIt12U7RuZ4TsNKovj893K8SjieYbY0b38eNYj5/+sDsMSUcT9hU81zdP7BRWAVgU83L2iiCSXzFIxF7Qlm0LjvOg2TEu+zkLQ4DmsW6fEBe2Me2dL5+u0WdrUusIP4PMoAQ8lL2wooAAAAASUVORK5CYII=';
   window.onload = () => {
+    const size = { width: window.innerWidth, height: window.innerHeight };
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x405090);
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(75, size.width / size.height, 0.1, 1000);
+    camera.position.z = 2;
+    camera.lookAt(0, 0, 0);
     const renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(size.width, size.height);
+    renderer.setPixelRatio(window.devicePixelRatio);
     document.body.appendChild(renderer.domElement);
+
     const geometry = new THREE.BoxGeometry();
     const loader = new THREE.TextureLoader();
     const sideTexture = loader.load(sidePath);
@@ -49,13 +54,22 @@
     ];
     const cube = new THREE.Mesh(geometry, materials);
     scene.add(cube);
-    camera.position.z = 2;
-    camera.lookAt(0, 0, 0);
-    const clock = new THREE.Clock();
+
+    window.addEventListener('resize', () => {
+      size.width = window.innerWidth;
+      size.height = window.innerHeight;
+      camera.aspect = size.width / size.height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(size.width, size.height);
+      renderer.setPixelRatio(window.devicePixelRatio);
+    });
+    window.addEventListener('mousemove', (event) => {
+      cube.rotation.y = (event.clientX / size.width - 0.5) * Math.PI; // -90deg ~ +90deg
+      cube.rotation.x = (event.clientY / size.height - 0.5) * Math.PI;
+    });
+
     const animate = function () {
       requestAnimationFrame(animate);
-      cube.rotation.y += clock.getDelta() * 0.25;
-      cube.rotation.x = Math.sin(clock.getElapsedTime()) * 0.5;
       renderer.render(scene, camera);
     };
     animate();
