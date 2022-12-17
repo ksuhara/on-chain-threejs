@@ -14,7 +14,8 @@ contract Sample1 is ERC721("Sample1", "SAMPLE1"), Ownable {
     address[9] private threeAddresses;
     string private constant STYLE_CODE =
         "%253Cstyle%253E%252A%257Bmargin%253A0%253Bpadding%253A0%257Dcanvas%257Bwidth%253A100%2525%253Bheight%253A100%2525%257D%253C%252Fstyle%253E";
-    string private constant JS_CODE = "TODO";
+    string private constant JS_CODE =
+        "window.onload%253D()%253D%253E%257Bconst%2520e%253Dnew%2520THREE.Scene%252Cn%253D(e.background%253Dnew%2520THREE.Color(16777215)%252Cnew%2520THREE.PerspectiveCamera(75%252Cwindow.innerWidth%252Fwindow.innerHeight%252C.1%252C1e3))%252Co%253Dnew%2520THREE.WebGLRenderer%253Bo.setSize(window.innerWidth%252Cwindow.innerHeight)%252Cdocument.body.appendChild(o.domElement)%253Bvar%2520i%253Dnew%2520THREE.HemisphereLight(16777215%252C2105376%252C1)%252Cr%253Dnew%2520THREE.TorusKnotGeometry(1%252C.3%252C100%252C16%252C2%252C3)%252Ct%253Dnew%2520THREE.MeshPhongMaterial(%257Bcolor%253A65535%257D)%253Bfunction%2520d()%257BrequestAnimationFrame(d)%252Cw.rotation.x%252B%253D.01%252Cw.rotation.y%252B%253D.01%252Co.render(e%252Cn)%257Dconst%2520w%253Dnew%2520THREE.Mesh(r%252Ct)%253Be.add(i%252Cw)%252Cn.position.z%253D4%253Bd()%257D%253B";
 
     function setCompilerAddress(address newAddress) public onlyOwner {
         compiler = IDataChunkCompilerV2(newAddress);
