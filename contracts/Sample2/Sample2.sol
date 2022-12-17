@@ -89,7 +89,7 @@ contract Sample2 is ERC721("Sample2", "SAMPLE2"), Ownable {
                     ),
                     compiler.END_METADATA_VAR(false)
                 ),
-                string.concat(compiler.BEGIN_METADATA_VAR("name", false), name(), "%20", tokenIdStr, "%22"),
+                string.concat(compiler.BEGIN_METADATA_VAR("name", false), name(), "%20%23", tokenIdStr, "%22"),
                 compiler.END_JSON()
             );
     }
