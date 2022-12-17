@@ -34,9 +34,13 @@ export const waitDeployed = async (title: string, contract: Contract) => {
   console.log('contract deploy to:', contract.address);
   console.log('hash:', contract.deployTransaction.hash);
   console.log('gasPrice:', toGwei(contract.deployTransaction.gasPrice));
-  await contract.deployed();
+  console.log('nonce:', contract.deployTransaction.nonce);
+  // await contract.deployed();
+  const receipt = await contract.deployTransaction.wait();
+  console.log('gasUsed:', receipt.gasUsed.toString());
   console.log('deployed!');
   console.log();
+  return receipt.gasUsed.toNumber();
 };
 
 export const waitTx = async (title: string, tx: ContractTransaction) => {
