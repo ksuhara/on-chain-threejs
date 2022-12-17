@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync, readFileSync } from 'fs';
-import { createDataChunkContracts } from './lib/createDataChunkContracts';
+import { createDataChunkContracts } from '../lib/createDataChunkContracts';
 
 async function main() {
   const name = 'EarthDataChunk';
