@@ -48,7 +48,7 @@
     }
     // returns 0x000000 <= x <= 0xffffff
     color() {
-      return Math.floor(this.float() * 0x1000000);
+      return this.intRange(0, 0x1000000);
     }
   }
   window.onload = () => {
