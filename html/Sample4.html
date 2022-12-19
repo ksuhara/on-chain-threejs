@@ -35,11 +35,11 @@
     const texture = new THREE.TextureLoader().load(imageUrl);
     const material = new THREE.MeshStandardMaterial({ map: texture });
     material.roughness = 0.4;
-    const cube = new THREE.Mesh(geometry, material);
+    const sphere = new THREE.Mesh(geometry, material);
     const light1 = new THREE.AmbientLight(0x202020);
     const light2 = new THREE.PointLight();
     light2.position.set(2, 2, 2);
-    scene.add(cube, light1, light2);
+    scene.add(sphere, light1, light2);
 
     window.addEventListener('resize', () => {
       size.width = window.innerWidth;
@@ -53,7 +53,7 @@
     const clock = new THREE.Clock();
     const animate = function () {
       requestAnimationFrame(animate);
-      cube.rotation.y += clock.getDelta() * 0.1;
+      sphere.rotation.y += clock.getDelta() * 0.1;
       renderer.render(scene, camera);
     };
     animate();
