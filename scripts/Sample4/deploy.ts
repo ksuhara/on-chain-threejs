@@ -14,6 +14,10 @@ import {
 } from '../lib/constants';
 
 async function main() {
+  // signer
+  const [signer] = await ethers.getSigners();
+  console.log('signer:', signer.address);
+
   // deploy
   const earth1 = await ethers.getContractFactory('EarthDataChunk1').then((factory) => factory.deploy());
   await waitDeployed('Earth1', earth1);
