@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "../common/IDataChunkCompilerV2.sol";
 
-contract Sample1 is ERC721("Sample1", "SAMPLE1"), Ownable {
+contract Sample1 is ERC721("On-Chain Three.js Sample1", "SAMPLE1"), Ownable {
     using Strings for uint256;
 
     IDataChunkCompilerV2 private compiler;
@@ -86,7 +86,7 @@ contract Sample1 is ERC721("Sample1", "SAMPLE1"), Ownable {
                     ),
                     compiler.END_METADATA_VAR(false)
                 ),
-                string.concat(compiler.BEGIN_METADATA_VAR("name", false), name(), "%20%23", tokenIdStr, "%22"),
+                string.concat(compiler.BEGIN_METADATA_VAR("name", false), "Sample1%20%23", tokenIdStr, "%22"),
                 compiler.END_JSON()
             );
     }
