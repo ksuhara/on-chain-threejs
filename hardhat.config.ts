@@ -22,7 +22,7 @@ const config: HardhatUserConfig = {
       accounts,
     },
     goerli: {
-      url: process.env.GOERLI_URL || '',
+      url: process.env.GOERLI_URL || 'https://goerli.infura.io/v3/95f65ab099894076814e8526f52c9149',
       accounts,
     },
     polygon: {
